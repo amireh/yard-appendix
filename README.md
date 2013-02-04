@@ -1,5 +1,7 @@
 # yard-appendix
 
+[![Build Status](https://travis-ci.org/amireh/yard-appendix.png)](https://travis-ci.org/amireh/yard-appendix)
+
 A YARD plugin that adds support for Appendix sections like ones you find in books and papers. Appendix entries provide you with a very convenient place to write supplementary documentation, references, or advanced-usage content, that would otherwise clutter up (or even seem unrelated) a certain method or class inline-documentation.
 
 ## Usage
