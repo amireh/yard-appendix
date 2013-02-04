@@ -1,0 +1,6 @@
+[transients]
+doc/
+.yardoc
+
+[build]
+*.gem

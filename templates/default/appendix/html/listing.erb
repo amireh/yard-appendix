@@ -1,0 +1,10 @@
+<div class="appendix">
+  <h2>Appendixes</h2>
+
+  <% @appendixes.each do |o| %>
+    <div class="appendix_entry">
+      <%= yieldall :object => o %>
+    </div>
+  <% end %>
+  
+</div>
