@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'yard-appendix'
-  s.version     = '0.1.2'
+  s.version     = '0.1.3'
   s.summary     = "A YARD plugin that adds support for Appendix sections."
   s.description = "Defines a @!appendix directive that lets you write object-free" <<
                   " documentation which you can link to in your docstrings using" <<
