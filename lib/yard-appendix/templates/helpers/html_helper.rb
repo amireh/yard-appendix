@@ -26,20 +26,42 @@ module YARD
       #  
       def linkify(link, *args)
         if link == 'Appendix:' && !args.empty?
-          return link_appendix(args.first)
+          if res = link_appendix(args.first)
+            return res
+          end
         end
         
         super(link, *args)
       end
       
-      def link_appendix(title)
-        appendix = YARD::Registry.at(".appendix.#{object.namespace.path}.#{title}")
+      def link_appendix(in_title)
+        appendix, title = nil, in_title.to_s.strip.to_sym
+        ns = nil # used for reporting in case we couldn't locate it
+        
+        if object
+          # try in the object scope
+          ns = object
+          appendix = YARD::Registry.at(".appendix.#{object.path}.#{title}")
+          
+          # try in the object's namespace scope
+          if appendix.nil? && object.respond_to?(:namespace)
+            ns = object.namespace
+            appendix = YARD::Registry.at(".appendix.#{object.namespace.path}.#{title}")
+          end
+        # else
+          # this shouldn't happen (use stub!(:object) in specs)
+          # appendix = YARD::Registry.all(:appendix).select { |a| a.name == title }.first
+        end
+
         unless appendix.nil?
           link = url_for(appendix, nil, true)
           link = link ? link_url(link, appendix.title, :title => h(appendix.title)) : appendix.title
           
           return "<span class='object_link'>#{link}</span>"
-        end    
+        end
+
+        log.warn %Q[unable to locate referenced appendix '#{title}'#{ns ? " in namespace " + ns.name.to_s : ''}]
+        nil
       end
     end
   end

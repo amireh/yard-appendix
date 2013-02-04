@@ -7,7 +7,8 @@ module YARD
     # The issue has been reported as a bug in Ripper and until it is solved,
     # this is required to work around it.
     class NamespaceResolver
-     
+      attr_reader :namespaces
+      
       def initialize()
         @namespaces ||= {}
         

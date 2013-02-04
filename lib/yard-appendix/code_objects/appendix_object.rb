@@ -9,7 +9,7 @@ module YARD
     class AppendixObject < Base
       def type; :appendix end
       def title; "Appendix: #{name}" end
-      def path; ".#{type}.#{namespace.path}.#{name}" end
+      def path; ".#{type}.#{namespace && namespace.path}.#{name}" end
       def to_s; "#{name}-appendix" end
       
       # def link_keyword
