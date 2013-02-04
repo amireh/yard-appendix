@@ -8,6 +8,8 @@ def appendix
 
   @appendixes = object.children.select { |o| o.type == :appendix }
   
+  return if @appendixes.empty?
+  
   log.debug "yard-appendix: found #{@appendixes.count} appendix entries for #{object}"
   
   erb :listing
