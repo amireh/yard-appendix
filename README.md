@@ -15,7 +15,7 @@ class SomeClass
   # your methods here
   def foo()
   end
-  
+
   # @!appendix Title
   #
   # Appendix body goes here.
@@ -37,7 +37,7 @@ class SomeClass
   # @see Appendix: Title
   def foo()
   end
-  
+
   # ...
 end
 ```
@@ -55,7 +55,7 @@ We will instead define an appendix titled `Fried Bananas`, and in our method's d
 
 ```ruby
 module FruitAPI
-  
+
   class BananaController
     # Explain why one would want a fried banana, what it would do
     # to their health and self-esteem, and any side-effects one
@@ -66,7 +66,7 @@ module FruitAPI
     end
 
     # @!appendix Fried Bananas
-    # 
+    #
     # This entry will be displayed at the bottom of the class'
     # documentation page, under a separate section aptly named
     # 'Appendixes'.
@@ -82,12 +82,12 @@ module FruitAPI
     #   }
     #
     # You can also reference other appendices: {Appendix: Fruit}
-    
+
     # @!appendix Fruit
     #
     # ...
   end
-  
+
 end
 ```
 
@@ -106,7 +106,7 @@ cd /path/to/yard-appendix; yardoc
 ```
 
 ## License
-Copyright (c) 2012-2013 Ahmad Amireh
+Copyright (c) 2013 Instructure, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,6 +1,9 @@
 [transients]
 doc/
-.yardoc
+.yardoc/
+
+[auto]
+.yardopts
 
 [build]
 *.gem
