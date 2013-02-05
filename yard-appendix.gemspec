@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Ahmad Amireh"]
   s.email       = 'ahmad@instructure.com'
   s.homepage    = 'https://github.com/amireh/yard-appendix'
-  s.files       = Dir.glob("{lib,spec,templates}/**/*.rb") +
+  s.files       = Dir.glob("{lib,spec,templates}/**/*.{rb,erb}") +
                   ['LICENSE', 'README.md', '.rspec', __FILE__]
   s.has_rdoc    = 'yard'
   s.license     = 'MIT'
