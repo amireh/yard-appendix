@@ -118,7 +118,7 @@ module YARD
         lines_to_namespaces.each_pair { |line, ast|
           distance = statement.line - line
           if closest.empty? || distance < closest[:distance]
-            closest = { node: ast, distance: distance }
+            closest = { :node => ast, :distance => distance }
           end
         }
 
