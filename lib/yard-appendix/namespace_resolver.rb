@@ -118,7 +118,7 @@ module YARD
         lines_to_namespaces.each_pair { |line, ast|
           distance = statement.line - line
           if closest.empty? || distance < closest[:distance]
-            closest = { node: ast, distance: distance }
+            closest = { :node => ast, :distance => distance }
           end
         }
 
@@ -134,16 +134,43 @@ module YARD
           end
         end
 
-        path += case node.type
-        when :class;  node.class_name.path.first
-        when :module; node.module_name.path.first
+
+        if node.is_a?(YARD::Parser::Ruby::AstNode)
+          path += case node.type
+          when :class;  node.class_name.path.first
+          when :module; node.module_name.path.first
+          end
+        else
+          path += node.to_s
         end
+        
+        path
       end
 
       def path_to(ast, ns)
         (ast && @namespaces[path_from_ast(ast, ns)]) || ns.to_s
       end
 
+      # Legacy YARD handler compatibility
+      module LegacyResolver
+        def self.included(b)
+          log.debug "yard-appendix: namespace resolver running in legacy mode"
+          
+          b.instance_eval { 
+            remove_method(:locate_enclosing_ns)
+            include InstanceMethods
+          }
+        end
+        
+        module InstanceMethods
+          def locate_enclosing_ns(__comment, outer_ns)
+            outer_ns.to_s
+          end
+        end
+      end
+      
+      include(LegacyResolver) unless RUBY19
     end
+    
   end
 end

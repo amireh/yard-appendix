@@ -20,7 +20,7 @@
 # SOFTWARE.
 #
 
-require 'yard/handlers/ruby/base'
+require 'yard/handlers/ruby/comment_handler'
 
 module YARD
   module Handlers
@@ -29,7 +29,7 @@ module YARD
       # it with the NamespaceResolver.
       #
       # @see YARD::AppendixPlugin::NamespaceResolver
-      class AppendixHandler < BaseHandler
+      class AppendixHandler < CommentHandler
         handles :class, :module
 
         def initialize(*args)
@@ -43,6 +43,7 @@ module YARD
         end
       end # AppendixHandler
 
+      CommentHandler.inherited(AppendixHandler)
     end # Ruby
   end # Handlers
 end # YARD

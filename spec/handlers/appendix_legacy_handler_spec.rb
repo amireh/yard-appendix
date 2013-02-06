@@ -20,30 +20,21 @@
 # SOFTWARE.
 #
 
-unless RUBY_VERSION < '1.9.'
+unless RUBY19
 
-include Handlers::Ruby
+include Handlers::Ruby::Legacy
 
-describe YARD::Handlers::Ruby::AppendixHandler do
+describe YARD::Handlers::Ruby::Legacy::AppendixHandler do
 
   before {
     Registry.clear
 
     class StubHandler < AppendixHandler
-      handles :class, :module
+      handles AppendixHandler::MATCH
 
       def self.resolver; @@resolver end
       def process; @@resolver ||= globals.resolver end
-
-      # have to do this manually as to not clutter up the other specs
-      # AppendixHandler.clear_subclasses
     end
-
-    # AppendixHandler.inherited(StubHandler)
-  }
-
-  after {
-    # AppendixHandler.clear_subclasses
   }
 
   it "should track a namespace statement" do
@@ -63,8 +54,9 @@ describe YARD::Handlers::Ruby::AppendixHandler do
   end
 
   it "should locate an enclosing ns for a comment" do
-    class StubCommentHandler < Handlers::Ruby::Base
-      handles :comment
+    class StubCommentHandler < Handlers::Ruby::Legacy::Base
+      handles TkCOMMENT
+      namespace_only
 
       class << self
         def comments; @@comments end
@@ -72,7 +64,7 @@ describe YARD::Handlers::Ruby::AppendixHandler do
 
       def process
         @@comments ||= []
-        @@comments << [ statement, namespace ] if statement.type == :comment
+        @@comments << [ statement.tokens.to_s, namespace ]
       end
     end
 
@@ -82,16 +74,18 @@ describe YARD::Handlers::Ruby::AppendixHandler do
         class SomeClass
           def f() end
           # comment in SomeClass
+          
+          # another comment in SomeClass
         end
 
         # comment in SomeModule
-      end
+      end # should be ignored
 
       # comment in :root
     eof
 
     comments = StubCommentHandler.comments
-    comments.size.should == 3
+    comments.size.should == 4
 
     resolver = StubHandler.resolver
     resolver.namespaces.size.should == 2
@@ -101,18 +95,24 @@ describe YARD::Handlers::Ruby::AppendixHandler do
         comments[0][0],
         comments[0][1]).
       should == Registry.at('SomeModule::SomeClass')
-
+    
     resolver.
       namespace_for(
         comments[1][0],
         comments[1][1]).
-      should == Registry.at('SomeModule')
+      should == Registry.at('SomeModule::SomeClass')
 
     resolver.
       namespace_for(
         comments[2][0],
         comments[2][1]).
-      should == Registry.at(:root)
+      should == Registry.at('SomeModule')
+
+    resolver.
+      namespace_for(
+        comments[3][0],
+        comments[3][1]).
+      should == Registry.root
 
   end
 

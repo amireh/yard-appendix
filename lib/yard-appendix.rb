@@ -23,19 +23,22 @@
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require 'yard'
-require 'yard-appendix/version'
-require 'yard-appendix/namespace_resolver'
-require 'yard-appendix/code_objects/appendix_object'
-require 'yard-appendix/tags/appendix_directive'
-require 'yard-appendix/handlers/appendix_handler'
-require 'yard-appendix/templates/helpers/html_helper'
 
 module YARD
   module AppendixPlugin
     ROOT          = File.dirname(__FILE__)
     TEMPLATE_PATH = File.join(%W[#{ROOT} .. templates])
+    RUBY_19       = RUBY_VERSION >= '1.9.'
   end
 
+  require 'yard-appendix/version'
+  require 'yard-appendix/namespace_resolver'
+  require 'yard-appendix/code_objects/appendix_object'
+  require 'yard-appendix/tags/appendix_directive'
+  require 'yard-appendix/handlers/ruby/appendix_handler' if RUBY19
+  require 'yard-appendix/handlers/ruby/legacy/appendix_handler' unless RUBY19
+  require 'yard-appendix/templates/helpers/html_helper'
+  
   module Templates
     Engine.register_template_path YARD::AppendixPlugin::TEMPLATE_PATH
   end
