@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/amireh/yard-appendix'
   s.files       = Dir.glob("{lib,spec,templates}/**/*.{rb,erb}") +
                   ['LICENSE', 'README.md', '.rspec', __FILE__]
-  s.has_rdoc    = 'yard'
   s.license     = 'MIT'
   s.add_dependency('yard', '>= 0.8.0')
   s.add_development_dependency 'rspec'
